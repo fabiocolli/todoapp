@@ -1,4 +1,4 @@
-# todoapp
+# AppTarefas
 
 Primeiro projeto Dart Flutter
 
