@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/pages/my_home_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+
+  await Hive.openBox('tarefas');
+
   runApp(const MyApp());
 }
 

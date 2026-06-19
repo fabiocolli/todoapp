@@ -5,7 +5,7 @@ class CadNovaTarefa extends StatelessWidget {
   final TextEditingController controlador;
   final VoidCallback aoAdicionar;
   final VoidCallback aoCancelar;
-  
+
   const CadNovaTarefa({
     super.key,
     required this.controlador,
@@ -16,7 +16,7 @@ class CadNovaTarefa extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
+      content: SizedBox(
         height: 120,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,8 +32,16 @@ class CadNovaTarefa extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MeuBotao(texto: 'Adicionar', aoPressionar: aoAdicionar),
-                MeuBotao(texto: 'Cancelar', aoPressionar: aoCancelar),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    spacing: 10,
+                    children: [
+                      MeuBotao(texto: 'Adicionar', aoPressionar: aoAdicionar),
+                      MeuBotao(texto: 'Cancelar', aoPressionar: aoCancelar),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],

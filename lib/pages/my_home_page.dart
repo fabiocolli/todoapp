@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todoapp/dados/banco_de_dados.dart';
 import 'package:todoapp/utils/cad_nova_tarefa.dart';
 import 'package:todoapp/utils/todo_tile.dart';
 
@@ -11,17 +13,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final controlador = TextEditingController();
+  final boxTarefas = Hive.box('tarefas');
 
-  List listaDeTarefas = [
-    ["Fazer compras", false],
-    ["Estudar Flutter", false],
-    ["Lavar o carro", false],
-  ];
+  BancoDeDadosListaDeTarefas bd = BancoDeDadosListaDeTarefas();
+
+  @override
+  void initState() {
+    if (boxTarefas.get('LISTADETAREFAS') == null) {
+      bd.criaDadosIniciais();
+    } else {
+      bd.carregarDados();
+    }
+    super.initState();
+  }
+
+  final controlador = TextEditingController();
 
   void _aoMudar(bool? value, int index) {
     setState(() {
-      listaDeTarefas[index][1] = value!;
+      bd.listaDeTarefas[index][1] = value!;
+      bd.atualizarDados();
     });
   }
 
@@ -32,7 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
         controlador: controlador,
         aoAdicionar: () {
           setState(() {
-            listaDeTarefas.add([controlador.text, false]);
+            bd.listaDeTarefas.add([controlador.text, false]);
+            bd.atualizarDados();
           });
           controlador.clear();
           Navigator.of(context).pop();
@@ -47,7 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _aoDeletar(int index) {
     setState(() {
-      listaDeTarefas.removeAt(index);
+      bd.listaDeTarefas.removeAt(index);
+      bd.atualizarDados();
     });
   }
 
@@ -60,11 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
       ),
       body: ListView.builder(
-        itemCount: listaDeTarefas.length,
+        itemCount: bd.listaDeTarefas.length,
         itemBuilder: (context, index) {
           return TodoTile(
-            nomeDaTarefa: listaDeTarefas[index][0],
-            tarefaConcluida: listaDeTarefas[index][1],
+            nomeDaTarefa: bd.listaDeTarefas[index][0],
+            tarefaConcluida: bd.listaDeTarefas[index][1],
             aoMudar: (value) => _aoMudar(value, index),
             aoDeletar: () {
               _aoDeletar(index);

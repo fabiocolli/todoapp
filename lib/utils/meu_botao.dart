@@ -9,7 +9,7 @@ class MeuBotao extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: aoPressionar,
-      color: Theme.of(context).primaryColor,
+      color: Colors.deepPurple[100],
       child: Text(texto),
     );
   }
