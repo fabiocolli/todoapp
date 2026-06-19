@@ -17,6 +17,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   BancoDeDadosListaDeTarefas bd = BancoDeDadosListaDeTarefas();
 
+  void atualizaDados() {
+    bd.atualizarDados();
+  }
+
   @override
   void initState() {
     if (boxTarefas.get('LISTADETAREFAS') == null) {
@@ -32,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _aoMudar(bool? value, int index) {
     setState(() {
       bd.listaDeTarefas[index][1] = value!;
-      bd.atualizarDados();
+      atualizaDados();
     });
   }
 
@@ -44,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         aoAdicionar: () {
           setState(() {
             bd.listaDeTarefas.add([controlador.text, false]);
-            bd.atualizarDados();
+            atualizaDados();
           });
           controlador.clear();
           Navigator.of(context).pop();
@@ -60,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _aoDeletar(int index) {
     setState(() {
       bd.listaDeTarefas.removeAt(index);
-      bd.atualizarDados();
+      atualizaDados();
     });
   }
 
